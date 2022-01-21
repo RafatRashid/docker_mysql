@@ -1,0 +1,29 @@
+version: '3.7'
+
+networks:
+  mysql_network:
+    name: mysql_network
+    driver: bridge
+
+volumes:
+  mysql_drive:
+    name: mysql_drive
+
+services:
+  mysql:
+    container_name: local_mysql
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    volumes:
+      - mysql_drive:/var/lib/mysql:rw
+    environment:
+      - MYSQL_USER=mysql_user
+      - MYSQL_PASSWORD=12345678
+      - MYSQL_ROOT_PASSWORD=12345678
+    ports:
+      - 3306:3306
+    tty: true
+    restart: always
+    networks:
+      - mysql_network
